@@ -15,3 +15,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "mrvinkel-adify-service"
           heroku_email: "martin.valsgaard.vinkel@beumergroup.com"
+
+      - name: Slow test
+        run: mvn test -DskipTests=false -Dgroups=slow
