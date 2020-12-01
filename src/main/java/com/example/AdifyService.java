@@ -1,11 +1,11 @@
 package com.example;
 
 class AdifyService {
-  private final Adify gate;
+  private final AdifyFetch gate;
   private final String body;
   private final Subscription.Sender sender;
 
-  AdifyService(Adify gate, String body, Subscription.Sender sender) {
+  AdifyService(AdifyFetch gate, String body, Subscription.Sender sender) {
     this.gate = gate;
     this.body = body;
     this.sender = sender;

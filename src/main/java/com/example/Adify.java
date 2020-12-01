@@ -3,14 +3,15 @@ package com.example;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-class Adify {
+class Adify implements AdifyFetch {
   private final ExternalService service;
 
   Adify(ExternalService service) {
     this.service = service;
   }
 
-  String fetch(String productId) {
+  @Override
+  public String fetch(String productId) {
     try {
       String content = service.get("?product=" + productId);
       JSONObject obj = (JSONObject) new JSONParser().parse(content);

@@ -45,7 +45,7 @@ class AdifyServiceTest {
 
     @Override
     public String get(String arg) {
-      return "{\"product-name\":\"Paper\"}";
+      return "{\"product\":\"Paper\"}";
     }
   }
 
@@ -56,6 +56,35 @@ class AdifyServiceTest {
 
     SenderSpy spy = new SenderSpy();
     AdifyService a = new AdifyService(new Adify(new ExternalServiceStub()), sessionId + ",USER_ID,PRODUCT_ID", spy);
+    a.execute();
+
+    System.out.println(spy.event);
+    assertEquals("display", spy.event);
+
+    System.out.println(spy.body);
+    String[] bodyParts = spy.body.split(",");
+    Assert.assertEquals(4, bodyParts.length);
+    Assert.assertEquals(sessionId, bodyParts[0]);
+    Assert.assertEquals("advert", bodyParts[1]);
+    Assert.assertEquals("PRODUCT_ID", bodyParts[2]);
+    Assert.assertEquals("Paper", bodyParts[3]);
+  }
+
+  static class AdifyFetchStub implements AdifyFetch {
+
+    @Override
+    public String fetch(String productId) {
+      return "Paper";
+    }
+  }
+
+  @Test
+  @Tag("fast")
+  public void testAdifyService() {
+    String sessionId = UUID.randomUUID().toString();
+
+    SenderSpy spy = new SenderSpy();
+    AdifyService a = new AdifyService(new AdifyFetchStub(), sessionId + ",USER_ID,PRODUCT_ID", spy);
     a.execute();
 
     System.out.println(spy.event);
