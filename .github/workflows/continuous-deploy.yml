@@ -18,3 +18,10 @@ jobs:
 
       - name: Slow test
         run: mvn test -DskipTests=false -Dgroups=slow
+
+      - name: Merge release
+        run: |
+          git checkout ${GITHUB_REF#refs/heads/}
+          git rebase origin/release
+          git branch release
+          git push origin release:release
